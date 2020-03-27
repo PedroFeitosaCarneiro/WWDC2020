@@ -1,12 +1,7 @@
-//: A SpriteKit based Playground
-
+import Foundation
 import PlaygroundSupport
-import SpriteKit
+import UIKit
 
-let sceneView = SKView(frame: CGRect(x:0 , y:0, width: 800, height: 800))
-if let scene = GameScene(fileNamed: "GameScene") {
-    scene.scaleMode = .aspectFill
-    sceneView.presentScene(scene)
-}
 
-PlaygroundSupport.PlaygroundPage.current.liveView = sceneView
+let mainView = MainView(frame: CGRect(x: 0, y: 0, width: 800, height: 800))
+PlaygroundPage.current.liveView = mainView
