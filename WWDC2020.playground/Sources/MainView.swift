@@ -9,12 +9,18 @@ struct Particle {
     var velocity: float2
 }
 
+struct GCenter{
+    var position : float2
+}
+
 
 public class MainView : MTKView {
     
     var commandQueue : MTLCommandQueue!
     var clearPass : MTLComputePipelineState!
     var drawDotPass : MTLComputePipelineState!
+    
+    var gravityCenterPosition = float2(400,400)
     
     var particleCount = 10000
     var particleBuffer : MTLBuffer!
@@ -64,6 +70,33 @@ public class MainView : MTKView {
         particleBuffer = device?.makeBuffer(bytes: particles, length: MemoryLayout<Particle>.size * particleCount, options: [])
         
         print(particles.count)
+        
+        
+        print(gravityCenterPosition)
+        
+    }
+    
+    
+    
+    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for t in touches {
+            let loc = t.location(in: self)
+            
+            gravityCenterPosition.x = Float(loc.x * 2)
+            
+            
+        }
+    }
+    
+    
+    public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for t in touches {
+            let loc = t.location(in: self)
+            
+            gravityCenterPosition.x = Float(loc.x * 2)
+            
+            
+        }
     }
     
     
@@ -89,10 +122,15 @@ extension MainView{
         let h = clearPass.maxTotalThreadsPerThreadgroup / w
         
         
+        var xxx = GCenter(position: gravityCenterPosition)
+        var bufferGravity = device!.makeBuffer(bytes: &xxx, length: MemoryLayout<GCenter>.size * 1, options: [])
+        computeCommandEncoder?.setBuffer(bufferGravity, offset: 0, index: 1)
+        
         
         var threadsPerGrid = MTLSize(width: drawable.texture.width, height: drawable.texture.height, depth: 1)
         var threadsPerThreadGroup = MTLSize(width: w, height: h, depth: 1)
         computeCommandEncoder?.dispatchThreads(threadsPerGrid, threadsPerThreadgroup: threadsPerThreadGroup)
+        
         
         
         computeCommandEncoder?.setComputePipelineState(drawDotPass)
@@ -100,6 +138,8 @@ extension MainView{
         threadsPerGrid = MTLSize(width: particleCount, height: 1, depth: 1)
         threadsPerThreadGroup = MTLSize(width: w, height: 1, depth: 1)
         computeCommandEncoder?.dispatchThreads(threadsPerGrid, threadsPerThreadgroup: threadsPerThreadGroup)
+        
+        
         
         
         computeCommandEncoder?.endEncoding()
