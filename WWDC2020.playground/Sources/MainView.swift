@@ -16,7 +16,7 @@ public class MainView : MTKView {
     var clearPass : MTLComputePipelineState!
     var drawDotPass : MTLComputePipelineState!
     
-    var particleCount = 100
+    var particleCount = 10000
     var particleBuffer : MTLBuffer!
     
     public override func layoutSubviews() {
@@ -32,8 +32,9 @@ public class MainView : MTKView {
         
         do {
             
-            clearPass = try? device?.makeComputePipelineState(function: clear_Func!)
             drawDotPass = try? device?.makeComputePipelineState(function: draw_Dot_Func!)
+            clearPass = try? device?.makeComputePipelineState(function: clear_Func!)
+            
             
         } catch let error as NSError {
             print(error)
@@ -50,8 +51,8 @@ public class MainView : MTKView {
         
         for _ in 0..<particleCount{
             
-            var positionX = Float(arc4random() % 800)
-            var positionY = Float(arc4random() % 800)
+            var positionX = Float.random(in: 10...1600)
+            var positionY = Float.random(in: 10...1600)
             var velocityX = (Float(arc4random() % 10) - 5) / 10.0
             var velocityY = (Float(arc4random() % 10) - 5) / 10.0
             
@@ -60,9 +61,11 @@ public class MainView : MTKView {
             particles.append(particle)
         }
         
-        particleBuffer = device?.makeBuffer(bytes: particles, length: MemoryLayout<Particle>.stride * particleCount, options: [])
+        particleBuffer = device?.makeBuffer(bytes: particles, length: MemoryLayout<Particle>.size * particleCount, options: [])
         
+        print(particles.count)
     }
+    
     
     
 }
@@ -94,8 +97,8 @@ extension MainView{
         
         computeCommandEncoder?.setComputePipelineState(drawDotPass)
         computeCommandEncoder?.setBuffer(particleBuffer, offset: 0, index: 0)
-        threadsPerGrid = MTLSize(width: w, height: 1, depth: 1)
-        threadsPerThreadGroup = MTLSize(width: particleCount, height: 1, depth: 1)
+        threadsPerGrid = MTLSize(width: particleCount, height: 1, depth: 1)
+        threadsPerThreadGroup = MTLSize(width: w, height: 1, depth: 1)
         computeCommandEncoder?.dispatchThreads(threadsPerGrid, threadsPerThreadgroup: threadsPerThreadGroup)
         
         
