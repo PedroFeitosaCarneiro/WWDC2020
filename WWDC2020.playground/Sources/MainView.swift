@@ -7,10 +7,13 @@ struct Particle {
     var color : float4
     var position: float2
     var velocity: float2
+    var mass : Float
 }
 
 struct GCenter{
     var position : float2
+    var mass : Float
+    var g : Float
 }
 
 
@@ -63,7 +66,7 @@ public class MainView : MTKView {
             var velocityY = (Float(arc4random() % 10) - 5) / 10.0
             
             
-            let particle = Particle(color: float4(1), position: float2(positionX,positionY), velocity: float2(velocityX,velocityY))
+            let particle = Particle(color: float4(1), position: float2(positionX,positionY), velocity: float2(velocityX,velocityY), mass: 10.0)
             particles.append(particle)
         }
         
@@ -81,21 +84,21 @@ public class MainView : MTKView {
     public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches {
             let loc = t.location(in: self)
-            
+
             gravityCenterPosition.x = Float(loc.x * 2)
-            
-            
+
+
         }
     }
-    
-    
+
+
     public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches {
             let loc = t.location(in: self)
-            
+
             gravityCenterPosition.x = Float(loc.x * 2)
-            
-            
+
+
         }
     }
     
@@ -122,8 +125,8 @@ extension MainView{
         let h = clearPass.maxTotalThreadsPerThreadgroup / w
         
         
-        var xxx = GCenter(position: gravityCenterPosition)
-        var bufferGravity = device!.makeBuffer(bytes: &xxx, length: MemoryLayout<GCenter>.size * 1, options: [])
+        var xxx = GCenter(position: gravityCenterPosition, mass: 5.0, g: 1.0)
+        let bufferGravity = device!.makeBuffer(bytes: &xxx, length: MemoryLayout<GCenter>.size * 1, options: [])
         computeCommandEncoder?.setBuffer(bufferGravity, offset: 0, index: 1)
         
         
