@@ -28,7 +28,7 @@ public class MainView : MTKView {
     var gravityCenterPosition = float2(800,800)
     var xxx : GCenter!
     
-    var particleCount = 1000000
+    var particleCount = 500000
     var particleBuffer : MTLBuffer!
     
     public override func layoutSubviews() {
@@ -56,6 +56,89 @@ public class MainView : MTKView {
         
         createParticles()
         
+        //direita inferior
+        var teclaSize = UIView(frame: CGRect(x: 400, y: 400, width: 200, height: 200))
+        teclaSize.backgroundColor = .white
+        self.addSubview(teclaSize)
+        
+        var teclaSize1 = UIView(frame: CGRect(x: 600, y: 400, width: 200, height: 200))
+        teclaSize1.backgroundColor = .blue
+        self.addSubview(teclaSize1)
+        
+        
+        var teclaSize3 = UIView(frame: CGRect(x: 400, y: 600, width: 200, height: 200))
+        teclaSize3.backgroundColor = .blue
+        self.addSubview(teclaSize3)
+        
+        var teclaSize4 = UIView(frame: CGRect(x: 600, y: 600, width: 200, height: 200))
+        teclaSize4.backgroundColor = .white
+        self.addSubview(teclaSize4)
+        
+        
+        //esquerda superior
+        
+        var teclaSizeR1 = UIView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
+        teclaSizeR1.backgroundColor = .white
+        self.addSubview(teclaSizeR1)
+        
+        var teclaSizeR2 = UIView(frame: CGRect(x: 200, y: 0, width: 200, height: 200))
+        teclaSizeR2.backgroundColor = .blue
+        self.addSubview(teclaSizeR2)
+        
+        var teclaSizeR3 = UIView(frame: CGRect(x: 0, y: 200, width: 200, height: 200))
+        teclaSizeR3.backgroundColor = .blue
+        self.addSubview(teclaSizeR3)
+        
+        var teclaSizeR4 = UIView(frame: CGRect(x: 200, y: 200, width: 200, height: 200))
+        teclaSizeR4.backgroundColor = .white
+        self.addSubview(teclaSizeR4)
+        
+        
+        //direita superior
+        
+        var teclaSizeG1 = UIView(frame: CGRect(x: 400, y: 0, width: 200, height: 200))
+        teclaSizeG1.backgroundColor = .white
+        self.addSubview(teclaSizeG1)
+        
+        var teclaSizeG2 = UIView(frame: CGRect(x: 600, y: 0, width: 200, height: 200))
+        teclaSizeG2.backgroundColor = .blue
+        self.addSubview(teclaSizeG2)
+        
+        var teclaSizeG3 = UIView(frame: CGRect(x: 400, y: 200, width: 200, height: 200))
+        teclaSizeG3.backgroundColor = .blue
+        self.addSubview(teclaSizeG3)
+        
+        var teclaSizeG4 = UIView(frame: CGRect(x: 600, y: 200, width: 200, height: 200))
+            teclaSizeG4.backgroundColor = .white
+            self.addSubview(teclaSizeG4)
+        
+        
+        //esquerda inferior
+        
+        var teclaSizeZ1 = UIView(frame: CGRect(x: 0, y: 400, width: 200, height: 200))
+        teclaSizeZ1.backgroundColor = .white
+        self.addSubview(teclaSizeZ1)
+        
+        var teclaSizeZ2 = UIView(frame: CGRect(x: 200, y: 400, width: 200, height: 200))
+        teclaSizeZ2.backgroundColor = .blue
+        self.addSubview(teclaSizeZ2)
+        
+        var teclaSizeZ3 = UIView(frame: CGRect(x: 0, y: 600, width: 200, height: 200))
+        teclaSizeZ3.backgroundColor = .blue
+        self.addSubview(teclaSizeZ3)
+        
+        var teclaSizeZ4 = UIView(frame: CGRect(x: 200, y: 600, width: 200, height: 200))
+        teclaSizeZ4.backgroundColor = .white
+        self.addSubview(teclaSizeZ4)
+        
+        
+        
+        
+        
+        
+        
+        
+        
     }
     
     
@@ -65,8 +148,8 @@ public class MainView : MTKView {
         
         for _ in 0..<particleCount{
             
-            var positionX = Float.random(in: 400...800)
-            var positionY = Float.random(in: 400...800)
+            var positionX = Float.random(in: 0...1600)
+            var positionY = Float.random(in: 0...1600)
             
             var randomColor : float4
             
@@ -83,7 +166,7 @@ public class MainView : MTKView {
             
             
             
-            let particle = Particle(color: randomColor, position: float2(positionX,positionY), velocity: float2(0,0), acceleration: float2(0,0), mass: Float.random(in: 0.1 ... 0.5))
+            let particle = Particle(color: randomColor, position: float2(positionX,positionY), velocity: float2(0,0), acceleration: float2(0,0), mass: Float.random(in: 0.1 ... 10))
             particles.append(particle)
         }
         
@@ -130,7 +213,7 @@ public class MainView : MTKView {
 extension MainView{
     
 
-    public override func draw(_ dirtyRect: CGRect){
+    /*public override func draw(_ dirtyRect: CGRect){
         
         guard let drawable = self.currentDrawable else {return}
 
@@ -172,7 +255,7 @@ extension MainView{
         commandBuffer?.present(drawable)
         commandBuffer?.commit()
         
-    }
+    }*/
 
 
 }

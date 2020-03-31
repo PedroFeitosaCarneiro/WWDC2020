@@ -64,7 +64,7 @@ force = normalize(float2(forceX,forceY));
 
 strenght = (gravity.g * gravity.mass * particle.mass) / (mdistance);
 
-force = force * float2(strenght/2,strenght/2);
+force = force * float2(strenght,strenght);
 
 return force;
 
