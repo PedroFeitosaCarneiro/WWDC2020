@@ -7,6 +7,7 @@ struct Particle {
     var color : float4
     var position: float2
     var velocity: float2
+    var acceleration : float2
     var mass : Float
 }
 
@@ -23,9 +24,9 @@ public class MainView : MTKView {
     var clearPass : MTLComputePipelineState!
     var drawDotPass : MTLComputePipelineState!
     
-    var gravityCenterPosition = float2(400,400)
+    var gravityCenterPosition = float2(800,800)
     
-    var particleCount = 10000
+    var particleCount = 1000000
     var particleBuffer : MTLBuffer!
     
     public override func layoutSubviews() {
@@ -60,13 +61,13 @@ public class MainView : MTKView {
         
         for _ in 0..<particleCount{
             
-            var positionX = Float.random(in: 10...1600)
-            var positionY = Float.random(in: 10...1600)
+            var positionX = Float.random(in: 500...1200)
+            var positionY = Float.random(in: 500...1200)
             var velocityX = (Float(arc4random() % 10) - 5) / 10.0
             var velocityY = (Float(arc4random() % 10) - 5) / 10.0
             
             
-            let particle = Particle(color: float4(1), position: float2(positionX,positionY), velocity: float2(velocityX,velocityY), mass: 10.0)
+            let particle = Particle(color: float4(1), position: float2(positionX,positionY), velocity: float2(1,0), acceleration: float2(0,0), mass: 0.1)
             particles.append(particle)
         }
         
@@ -86,6 +87,7 @@ public class MainView : MTKView {
             let loc = t.location(in: self)
 
             gravityCenterPosition.x = Float(loc.x * 2)
+            gravityCenterPosition.y = Float(loc.y * 2)
 
 
         }
@@ -97,7 +99,7 @@ public class MainView : MTKView {
             let loc = t.location(in: self)
 
             gravityCenterPosition.x = Float(loc.x * 2)
-
+            gravityCenterPosition.y = Float(loc.y * 2)
 
         }
     }
@@ -125,7 +127,7 @@ extension MainView{
         let h = clearPass.maxTotalThreadsPerThreadgroup / w
         
         
-        var xxx = GCenter(position: gravityCenterPosition, mass: 5.0, g: 1.0)
+        var xxx = GCenter(position: gravityCenterPosition, mass: 1.0, g: 1.0)
         let bufferGravity = device!.makeBuffer(bytes: &xxx, length: MemoryLayout<GCenter>.size * 1, options: [])
         computeCommandEncoder?.setBuffer(bufferGravity, offset: 0, index: 1)
         

@@ -15,6 +15,7 @@ struct Particle {
 float4 color;
 float2 position;
 float2 velocity;
+float2 acceleration;
 float mass;
 
 };
@@ -56,11 +57,11 @@ forceY = gravity.position.y - particle.position.y;
 sum = (forceX * forceX) + (forceY * forceY);
 
 mdistance = sqrt(sum);
-mdistance = constrain(mdistance,10,50);
+mdistance = constrain(mdistance,10,20);
 
 force = normalize(float2(forceX,forceY));
 
-strenght = (gravity.g * gravity.mass * particle.mass) / (mdistance);
+strenght = (gravity.g * gravity.mass * particle.mass) / (mdistance * 2);
 
 force = force * float2(strenght,strenght);
 
@@ -75,7 +76,7 @@ tex.write(half4(0), id);
 }
 
 
-kernel void draw_Dots_Func(device Particle *particles [[buffer(0)]], texture2d<half,access::write> tex [[texture(0)]], uint id [[ thread_position_in_grid ]], device GCenter *gCenter [[buffer(1)]]){
+kernel void draw_Dots_Func(device Particle *particles [[buffer(0)]], texture2d<half,access::write> tex [[texture(0)]], uint id [[ thread_position_in_grid ]], device GCenter *gravity [[buffer(1)]]){
 
 
 Particle particle;
@@ -85,8 +86,25 @@ float2 position = particle.position;
 float2 velocity = particle.velocity;
 half4 color = half4(particle.color.r, particle.color.g, particle.color.b, 1);
 
-//position.x = gCenter->position.x;
 
+
+// applying force
+float2 force = calculateAtracttion(particle,*gravity);
+float2 value = force / particle.mass;
+particle.acceleration += value;
+
+
+//update
+
+particle.velocity = particle.velocity + particle.acceleration;
+particle.position = particle.position + particle.velocity;
+
+particle.acceleration = particle.acceleration * 0;
+
+
+//particle.position += velocity;
+
+particles[id] = particle;
 
 uint2 texturePosition = uint2(position.x, position.y);
 tex.write(color, texturePosition);
