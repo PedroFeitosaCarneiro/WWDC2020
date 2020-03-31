@@ -25,6 +25,7 @@ struct GCenter{
 float2 position;
 float mass;
 float g;
+int exists;
 
 };
 
@@ -57,13 +58,13 @@ forceY = gravity.position.y - particle.position.y;
 sum = (forceX * forceX) + (forceY * forceY);
 
 mdistance = sqrt(sum);
-mdistance = constrain(mdistance,10,20);
+mdistance = constrain(mdistance,1,10);
 
 force = normalize(float2(forceX,forceY));
 
-strenght = (gravity.g * gravity.mass * particle.mass) / (mdistance * 2);
+strenght = (gravity.g * gravity.mass * particle.mass) / (mdistance);
 
-force = force * float2(strenght,strenght);
+force = force * float2(strenght/2,strenght/2);
 
 return force;
 
@@ -88,21 +89,40 @@ half4 color = half4(particle.color.r, particle.color.g, particle.color.b, 1);
 
 
 
+if (gravity->exists == 1) {
+
 // applying force
 float2 force = calculateAtracttion(particle,*gravity);
 float2 value = force / particle.mass;
 particle.acceleration += value;
 
+}
+
+
+
+
 
 //update
-
 particle.velocity = particle.velocity + particle.acceleration;
 particle.position = particle.position + particle.velocity;
+particle.acceleration = (particle.acceleration - 2) * 0;
+//checking edges
+if(particle.position.x > 1600) {
+    particle.position.x = 1600;
+} else if (particle.position.x < 0) {
+        particle.position.x = 0;
+}
+if(particle.position.y > 1600) {
+    particle.position.y = 1600;
+} else if (particle.position.y < 0) {
+        particle.position.y = 0;
 
-particle.acceleration = particle.acceleration * 0;
+}
 
 
-//particle.position += velocity;
+
+
+
 
 particles[id] = particle;
 

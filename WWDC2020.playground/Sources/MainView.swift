@@ -15,6 +15,7 @@ struct GCenter{
     var position : float2
     var mass : Float
     var g : Float
+    var exists : Int
 }
 
 
@@ -25,11 +26,14 @@ public class MainView : MTKView {
     var drawDotPass : MTLComputePipelineState!
     
     var gravityCenterPosition = float2(800,800)
+    var xxx : GCenter!
     
     var particleCount = 1000000
     var particleBuffer : MTLBuffer!
     
     public override func layoutSubviews() {
+        
+        xxx = GCenter(position: gravityCenterPosition, mass: 1.0, g: 1.0, exists: 0)
         
         self.framebufferOnly = false
         self.device = MTLCreateSystemDefaultDevice()
@@ -61,22 +65,29 @@ public class MainView : MTKView {
         
         for _ in 0..<particleCount{
             
-            var positionX = Float.random(in: 500...1200)
-            var positionY = Float.random(in: 500...1200)
-            var velocityX = (Float(arc4random() % 10) - 5) / 10.0
-            var velocityY = (Float(arc4random() % 10) - 5) / 10.0
+            var positionX = Float.random(in: 400...800)
+            var positionY = Float.random(in: 400...800)
+            
+            var randomColor : float4
+            
+            switch Int.random(in: 1...3) {
+            case 1:
+                randomColor = float4((112/255),(213/255),(255/255),1)
+            case 2:
+                randomColor = float4((112/255),(255/255),(138/255),1)
+            case 3:
+                randomColor = float4((138/255),(140/255),(255/255),1)
+            default:
+                randomColor = float4((138/255),(140/255),(255/255),1)
+            }
             
             
-            let particle = Particle(color: float4(1), position: float2(positionX,positionY), velocity: float2(1,0), acceleration: float2(0,0), mass: 0.1)
+            
+            let particle = Particle(color: randomColor, position: float2(positionX,positionY), velocity: float2(0,0), acceleration: float2(0,0), mass: Float.random(in: 0.1 ... 0.5))
             particles.append(particle)
         }
         
-        particleBuffer = device?.makeBuffer(bytes: particles, length: MemoryLayout<Particle>.size * particleCount, options: [])
-        
-        print(particles.count)
-        
-        
-        print(gravityCenterPosition)
+        particleBuffer = device?.makeBuffer(bytes: particles, length: MemoryLayout<Particle>.stride * particleCount, options: [])
         
     }
     
@@ -85,6 +96,8 @@ public class MainView : MTKView {
     public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches {
             let loc = t.location(in: self)
+            
+            xxx.exists = 1
 
             gravityCenterPosition.x = Float(loc.x * 2)
             gravityCenterPosition.y = Float(loc.y * 2)
@@ -97,11 +110,17 @@ public class MainView : MTKView {
     public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches {
             let loc = t.location(in: self)
+            
+            xxx.exists = 1
 
             gravityCenterPosition.x = Float(loc.x * 2)
             gravityCenterPosition.y = Float(loc.y * 2)
 
         }
+    }
+    
+    public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        xxx.exists = 0
     }
     
     
@@ -120,15 +139,17 @@ extension MainView{
         let computeCommandEncoder = commandBuffer?.makeComputeCommandEncoder()
         
         
+        
         computeCommandEncoder?.setComputePipelineState(clearPass)
         computeCommandEncoder?.setTexture(drawable.texture, index: 0)
+        
         
         let w = clearPass.threadExecutionWidth
         let h = clearPass.maxTotalThreadsPerThreadgroup / w
         
         
-        var xxx = GCenter(position: gravityCenterPosition, mass: 1.0, g: 1.0)
-        let bufferGravity = device!.makeBuffer(bytes: &xxx, length: MemoryLayout<GCenter>.size * 1, options: [])
+        var z = GCenter(position: gravityCenterPosition, mass: 1.0, g: 1.0, exists: xxx.exists)
+        let bufferGravity = device!.makeBuffer(bytes: &z, length: MemoryLayout<GCenter>.size * 1, options: [])
         computeCommandEncoder?.setBuffer(bufferGravity, offset: 0, index: 1)
         
         
