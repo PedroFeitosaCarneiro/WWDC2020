@@ -56,6 +56,8 @@ public class MainView : MTKView {
         
         createParticles()
         
+        /*
+        
         //direita inferior
         var teclaSize = UIView(frame: CGRect(x: 400, y: 400, width: 200, height: 200))
         teclaSize.backgroundColor = .white
@@ -133,7 +135,7 @@ public class MainView : MTKView {
         
         
         
-        
+        */
         
         
         
@@ -213,7 +215,7 @@ public class MainView : MTKView {
 extension MainView{
     
 
-    /*public override func draw(_ dirtyRect: CGRect){
+    public override func draw(_ dirtyRect: CGRect){
         
         guard let drawable = self.currentDrawable else {return}
 
@@ -255,7 +257,7 @@ extension MainView{
         commandBuffer?.present(drawable)
         commandBuffer?.commit()
         
-    }*/
+    }
 
 
 }
