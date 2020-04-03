@@ -19,10 +19,7 @@ struct GCenter{
 }
 
 public class MainView : MTKView {
-    
-    
-    
-    
+
     var keys : [keybord_Key] = []
     
     
@@ -59,24 +56,8 @@ public class MainView : MTKView {
             print(error)
         }
         
-        //direita inferior
-        var teclaSize = UIView(frame: CGRect(x: 400, y: 400, width: 200, height: 200))
-        teclaSize.backgroundColor = .white
-        self.addSubview(teclaSize)
-
-        var teclaSize1 = UIView(frame: CGRect(x: 600, y: 400, width: 200, height: 200))
-        teclaSize1.backgroundColor = .blue
-        self.addSubview(teclaSize1)
-
-
-        var teclaSize3 = UIView(frame: CGRect(x: 400, y: 600, width: 200, height: 200))
-        teclaSize3.backgroundColor = .blue
-        self.addSubview(teclaSize3)
-
-        var teclaSize4 = UIView(frame: CGRect(x: 600, y: 600, width: 200, height: 200))
-        teclaSize4.backgroundColor = .white
-        self.addSubview(teclaSize4)
-        
+        SoundControl.shared.playSound(soundName: "bgSound")
+ 
         createKeys()
         createParticles()
     }
@@ -84,25 +65,25 @@ public class MainView : MTKView {
     
     func createKeys(){
         
-        let t1 = keybord_Key(area: CGRect(x: 0, y: 0, width: 200, height: 200), song: "S1", timer: 5, isPlaying: false)
-        let t2 = keybord_Key(area: CGRect(x: 200, y: 0, width: 200, height: 200), song: "S2", timer: 6, isPlaying: false)
-        let t3 = keybord_Key(area: CGRect(x: 0, y: 200, width: 200, height: 200), song: "S3", timer: 4, isPlaying: false)
-        let t4 = keybord_Key(area: CGRect(x: 200, y: 200, width: 200, height: 200), song: "S4", timer: 4, isPlaying: false)
+        var t1 = keybord_Key(area: CGRect(x: 0, y: 0, width: 200, height: 200), song: "S1", timer: 5, isPlaying: false)
+        var t2 = keybord_Key(area: CGRect(x: 200, y: 0, width: 200, height: 200), song: "S2", timer: 6, isPlaying: false)
+        var t3 = keybord_Key(area: CGRect(x: 0, y: 200, width: 200, height: 200), song: "S3", timer: 4, isPlaying: false)
+        var t4 = keybord_Key(area: CGRect(x: 200, y: 200, width: 200, height: 200), song: "S4", timer: 4, isPlaying: false)
         
-        let t5 = keybord_Key(area: CGRect(x: 400, y: 0, width: 200, height: 200), song: "S5", timer: 5, isPlaying: false)
-        let t6 = keybord_Key(area: CGRect(x: 600, y: 0, width: 200, height: 200), song: "S6", timer: 4, isPlaying: false)
-        let t7 = keybord_Key(area: CGRect(x: 400, y: 200, width: 200, height: 200), song: "S7", timer: 6, isPlaying: false)
-        let t8 = keybord_Key(area: CGRect(x: 600, y: 200, width: 200, height: 200), song: "S8", timer: 5, isPlaying: false)
+        var t5 = keybord_Key(area: CGRect(x: 400, y: 0, width: 200, height: 200), song: "S5", timer: 5, isPlaying: false)
+        var t6 = keybord_Key(area: CGRect(x: 600, y: 0, width: 200, height: 200), song: "S6", timer: 4, isPlaying: false)
+        var t7 = keybord_Key(area: CGRect(x: 400, y: 200, width: 200, height: 200), song: "S7", timer: 6, isPlaying: false)
+        var t8 = keybord_Key(area: CGRect(x: 600, y: 200, width: 200, height: 200), song: "S8", timer: 5, isPlaying: false)
         
-        let t9 = keybord_Key(area: CGRect(x: 0, y: 400, width: 200, height: 200), song: "S9", timer: 6, isPlaying: false)
-        let t10 = keybord_Key(area: CGRect(x: 200, y: 400, width: 200, height: 200), song: "S10", timer: 7, isPlaying: false)
-        let t11 = keybord_Key(area: CGRect(x: 0, y: 600, width: 200, height: 200), song: "S11", timer: 5, isPlaying: false)
-        let t12 = keybord_Key(area: CGRect(x: 200, y: 600, width: 200, height: 200), song: "S12", timer: 6, isPlaying: false)
+        var t9 = keybord_Key(area: CGRect(x: 0, y: 400, width: 200, height: 200), song: "S9", timer: 6, isPlaying: false)
+        var t10 = keybord_Key(area: CGRect(x: 200, y: 400, width: 200, height: 200), song: "S10", timer: 7, isPlaying: false)
+        var t11 = keybord_Key(area: CGRect(x: 0, y: 600, width: 200, height: 200), song: "S11", timer: 5, isPlaying: false)
+        var t12 = keybord_Key(area: CGRect(x: 200, y: 600, width: 200, height: 200), song: "S12", timer: 6, isPlaying: false)
 
-        let t13 = keybord_Key(area: CGRect(x: 400, y: 400, width: 200, height: 200), song: "S13", timer: 7, isPlaying: false)
-        let t14 = keybord_Key(area: CGRect(x: 600, y: 400, width: 200, height: 200), song: "S14", timer: 5, isPlaying: false)
-        let t15 = keybord_Key(area: CGRect(x: 400, y: 600, width: 200, height: 200), song: "S15", timer: 6, isPlaying: false)
-        let t16 = keybord_Key(area: CGRect(x: 600, y: 600, width: 200, height: 200), song: "S3", timer: 4, isPlaying: false)
+        var t13 = keybord_Key(area: CGRect(x: 400, y: 400, width: 200, height: 200), song: "S13", timer: 7, isPlaying: false)
+        var t14 = keybord_Key(area: CGRect(x: 600, y: 400, width: 200, height: 200), song: "S14", timer: 5, isPlaying: false)
+        var t15 = keybord_Key(area: CGRect(x: 400, y: 600, width: 200, height: 200), song: "S15", timer: 6, isPlaying: false)
+        var t16 = keybord_Key(area: CGRect(x: 600, y: 600, width: 200, height: 200), song: "S3", timer: 4, isPlaying: false)
 
         keys.append(t1)
         keys.append(t2)
@@ -166,6 +147,7 @@ public class MainView : MTKView {
             for i in keys{
                 if i.area.contains(loc){
                     print(i.song)
+                    i.canPlay(timerP: i.timer, songP: i.song, state: i.isPlaying)
                 }
             }
             
@@ -181,7 +163,12 @@ public class MainView : MTKView {
             gravityCenterPosition.x = Float(loc.x * 2)
             gravityCenterPosition.y = Float(loc.y * 2)
             
-            
+            for i in keys{
+                if i.area.contains(loc){
+                    print(i.song)
+                    i.canPlay(timerP: i.timer, songP: i.song, state: i.isPlaying)
+                }
+            }
 
             
 
@@ -199,7 +186,7 @@ public class MainView : MTKView {
 extension MainView{
     
 
-    /*public override func draw(_ dirtyRect: CGRect){
+    public override func draw(_ dirtyRect: CGRect){
         
         guard let drawable = self.currentDrawable else {return}
 
@@ -241,7 +228,7 @@ extension MainView{
         commandBuffer?.present(drawable)
         commandBuffer?.commit()
         
-    }*/
+    }
 
 
 }
