@@ -18,8 +18,13 @@ struct GCenter{
     var exists : Int
 }
 
-
 public class MainView : MTKView {
+    
+    
+    
+    
+    var keys : [keybord_Key] = []
+    
     
     var commandQueue : MTLCommandQueue!
     var clearPass : MTLComputePipelineState!
@@ -54,93 +59,67 @@ public class MainView : MTKView {
             print(error)
         }
         
-        createParticles()
-        
-        /*
-        
         //direita inferior
         var teclaSize = UIView(frame: CGRect(x: 400, y: 400, width: 200, height: 200))
         teclaSize.backgroundColor = .white
         self.addSubview(teclaSize)
-        
+
         var teclaSize1 = UIView(frame: CGRect(x: 600, y: 400, width: 200, height: 200))
         teclaSize1.backgroundColor = .blue
         self.addSubview(teclaSize1)
-        
-        
+
+
         var teclaSize3 = UIView(frame: CGRect(x: 400, y: 600, width: 200, height: 200))
         teclaSize3.backgroundColor = .blue
         self.addSubview(teclaSize3)
-        
+
         var teclaSize4 = UIView(frame: CGRect(x: 600, y: 600, width: 200, height: 200))
         teclaSize4.backgroundColor = .white
         self.addSubview(teclaSize4)
         
+        createKeys()
+        createParticles()
+    }
+    
+    
+    func createKeys(){
         
-        //esquerda superior
+        let t1 = keybord_Key(area: CGRect(x: 0, y: 0, width: 200, height: 200), song: "S1", timer: 5, isPlaying: false)
+        let t2 = keybord_Key(area: CGRect(x: 200, y: 0, width: 200, height: 200), song: "S2", timer: 6, isPlaying: false)
+        let t3 = keybord_Key(area: CGRect(x: 0, y: 200, width: 200, height: 200), song: "S3", timer: 4, isPlaying: false)
+        let t4 = keybord_Key(area: CGRect(x: 200, y: 200, width: 200, height: 200), song: "S4", timer: 4, isPlaying: false)
         
-        var teclaSizeR1 = UIView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
-        teclaSizeR1.backgroundColor = .white
-        self.addSubview(teclaSizeR1)
+        let t5 = keybord_Key(area: CGRect(x: 400, y: 0, width: 200, height: 200), song: "S5", timer: 5, isPlaying: false)
+        let t6 = keybord_Key(area: CGRect(x: 600, y: 0, width: 200, height: 200), song: "S6", timer: 4, isPlaying: false)
+        let t7 = keybord_Key(area: CGRect(x: 400, y: 200, width: 200, height: 200), song: "S7", timer: 6, isPlaying: false)
+        let t8 = keybord_Key(area: CGRect(x: 600, y: 200, width: 200, height: 200), song: "S8", timer: 5, isPlaying: false)
         
-        var teclaSizeR2 = UIView(frame: CGRect(x: 200, y: 0, width: 200, height: 200))
-        teclaSizeR2.backgroundColor = .blue
-        self.addSubview(teclaSizeR2)
-        
-        var teclaSizeR3 = UIView(frame: CGRect(x: 0, y: 200, width: 200, height: 200))
-        teclaSizeR3.backgroundColor = .blue
-        self.addSubview(teclaSizeR3)
-        
-        var teclaSizeR4 = UIView(frame: CGRect(x: 200, y: 200, width: 200, height: 200))
-        teclaSizeR4.backgroundColor = .white
-        self.addSubview(teclaSizeR4)
-        
-        
-        //direita superior
-        
-        var teclaSizeG1 = UIView(frame: CGRect(x: 400, y: 0, width: 200, height: 200))
-        teclaSizeG1.backgroundColor = .white
-        self.addSubview(teclaSizeG1)
-        
-        var teclaSizeG2 = UIView(frame: CGRect(x: 600, y: 0, width: 200, height: 200))
-        teclaSizeG2.backgroundColor = .blue
-        self.addSubview(teclaSizeG2)
-        
-        var teclaSizeG3 = UIView(frame: CGRect(x: 400, y: 200, width: 200, height: 200))
-        teclaSizeG3.backgroundColor = .blue
-        self.addSubview(teclaSizeG3)
-        
-        var teclaSizeG4 = UIView(frame: CGRect(x: 600, y: 200, width: 200, height: 200))
-            teclaSizeG4.backgroundColor = .white
-            self.addSubview(teclaSizeG4)
-        
-        
-        //esquerda inferior
-        
-        var teclaSizeZ1 = UIView(frame: CGRect(x: 0, y: 400, width: 200, height: 200))
-        teclaSizeZ1.backgroundColor = .white
-        self.addSubview(teclaSizeZ1)
-        
-        var teclaSizeZ2 = UIView(frame: CGRect(x: 200, y: 400, width: 200, height: 200))
-        teclaSizeZ2.backgroundColor = .blue
-        self.addSubview(teclaSizeZ2)
-        
-        var teclaSizeZ3 = UIView(frame: CGRect(x: 0, y: 600, width: 200, height: 200))
-        teclaSizeZ3.backgroundColor = .blue
-        self.addSubview(teclaSizeZ3)
-        
-        var teclaSizeZ4 = UIView(frame: CGRect(x: 200, y: 600, width: 200, height: 200))
-        teclaSizeZ4.backgroundColor = .white
-        self.addSubview(teclaSizeZ4)
-        
-        
-        
-        */
-        
-        
-        
-        
-        
+        let t9 = keybord_Key(area: CGRect(x: 0, y: 400, width: 200, height: 200), song: "S9", timer: 6, isPlaying: false)
+        let t10 = keybord_Key(area: CGRect(x: 200, y: 400, width: 200, height: 200), song: "S10", timer: 7, isPlaying: false)
+        let t11 = keybord_Key(area: CGRect(x: 0, y: 600, width: 200, height: 200), song: "S11", timer: 5, isPlaying: false)
+        let t12 = keybord_Key(area: CGRect(x: 200, y: 600, width: 200, height: 200), song: "S12", timer: 6, isPlaying: false)
+
+        let t13 = keybord_Key(area: CGRect(x: 400, y: 400, width: 200, height: 200), song: "S13", timer: 7, isPlaying: false)
+        let t14 = keybord_Key(area: CGRect(x: 600, y: 400, width: 200, height: 200), song: "S14", timer: 5, isPlaying: false)
+        let t15 = keybord_Key(area: CGRect(x: 400, y: 600, width: 200, height: 200), song: "S15", timer: 6, isPlaying: false)
+        let t16 = keybord_Key(area: CGRect(x: 600, y: 600, width: 200, height: 200), song: "S3", timer: 4, isPlaying: false)
+
+        keys.append(t1)
+        keys.append(t2)
+        keys.append(t3)
+        keys.append(t4)
+        keys.append(t5)
+        keys.append(t6)
+        keys.append(t7)
+        keys.append(t8)
+        keys.append(t9)
+        keys.append(t10)
+        keys.append(t11)
+        keys.append(t12)
+        keys.append(t13)
+        keys.append(t14)
+        keys.append(t15)
+        keys.append(t16)
     }
     
     
@@ -165,10 +144,8 @@ public class MainView : MTKView {
             default:
                 randomColor = float4((138/255),(140/255),(255/255),1)
             }
-            
-            
-            
-            let particle = Particle(color: randomColor, position: float2(positionX,positionY), velocity: float2(0,0), acceleration: float2(0,0), mass: Float.random(in: 0.1 ... 10))
+
+            let particle = Particle(color: randomColor, position: float2(positionX,positionY), velocity: float2(0,0), acceleration: float2(0,0), mass: Float.random(in: 0.1 ... 100))
             particles.append(particle)
         }
         
@@ -183,11 +160,15 @@ public class MainView : MTKView {
             let loc = t.location(in: self)
             
             xxx.exists = 1
-
             gravityCenterPosition.x = Float(loc.x * 2)
             gravityCenterPosition.y = Float(loc.y * 2)
-
-
+            
+            for i in keys{
+                if i.area.contains(loc){
+                    print(i.song)
+                }
+            }
+            
         }
     }
 
@@ -197,9 +178,12 @@ public class MainView : MTKView {
             let loc = t.location(in: self)
             
             xxx.exists = 1
-
             gravityCenterPosition.x = Float(loc.x * 2)
             gravityCenterPosition.y = Float(loc.y * 2)
+            
+            
+
+            
 
         }
     }
@@ -215,7 +199,7 @@ public class MainView : MTKView {
 extension MainView{
     
 
-    public override func draw(_ dirtyRect: CGRect){
+    /*public override func draw(_ dirtyRect: CGRect){
         
         guard let drawable = self.currentDrawable else {return}
 
@@ -257,7 +241,8 @@ extension MainView{
         commandBuffer?.present(drawable)
         commandBuffer?.commit()
         
-    }
+    }*/
 
 
 }
+

@@ -62,7 +62,7 @@ mdistance = constrain(mdistance,1,10);
 
 force = normalize(float2(forceX,forceY));
 
-strenght = (gravity.g * gravity.mass * particle.mass) / (mdistance);
+strenght = (gravity.g * gravity.mass * particle.mass)/ (mdistance);
 
 force = force * float2(strenght,strenght);
 
@@ -99,9 +99,6 @@ particle.acceleration += value;
 }
 
 
-
-
-
 //update
 particle.velocity = particle.velocity + particle.acceleration;
 particle.position = particle.position + particle.velocity;
@@ -118,11 +115,6 @@ if(particle.position.y > 1600) {
         particle.position.y = 0;
 
 }
-
-
-
-
-
 
 particles[id] = particle;
 
